@@ -9,7 +9,7 @@ const CART_COOKIE_OPTIONS = {
   secure: process.env.NODE_ENV === "production",
   sameSite: "lax" as const,
   path: "/",
-  maxAge: 60 * 60 * 24 * 14, // 14 gün
+  maxAge: 60 * 60 * 24 * 14,
 };
 
 export async function getCartIdFromCookies(): Promise<string | undefined> {
@@ -28,13 +28,12 @@ export async function clearCartIdCookie(): Promise<void> {
 }
 
 /**
- * Cookie'deki cart ID ile Shopify cart'ı yükler.
- * Cart geçersiz/expire olmuşsa null döner (cookie temizliği Server Action'da yapılır).
+ * Layout'u asla çökertmez — cart yüklenemezse null döner.
  */
 export async function getCartFromCookies(): Promise<Cart | null> {
-  const cartId = await getCartIdFromCookies();
-  if (!cartId) return null;
   try {
+    const cartId = await getCartIdFromCookies();
+    if (!cartId) return null;
     return await getCart(cartId);
   } catch {
     return null;

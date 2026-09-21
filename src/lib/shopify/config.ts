@@ -33,10 +33,13 @@ export function getShopifyConfig() {
   const hasCredentials = Boolean(domain && (storefrontToken || privateToken));
 
   /**
-   * Mock YALNIZCA açıkça USE_MOCK_DATA=true iken.
-   * Credentials yokken veya API hata verince otomatik mock'a düşülmez.
+   * Mock: USE_MOCK_DATA=true VEYA credentials yokken (ve false zorlanmamışsa).
+   * Böylece Shopify bağlanmadan site gezilebilir.
+   * USE_MOCK_DATA=false + credentials yok → gerçek API (hata = error state, demo yok).
    */
-  const useMockData = useMockFlag === "true";
+  const useMockData =
+    useMockFlag === "true" ||
+    (!hasCredentials && useMockFlag !== "false");
 
   return {
     domain,

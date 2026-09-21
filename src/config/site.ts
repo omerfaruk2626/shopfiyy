@@ -10,8 +10,8 @@ function readOptional(name: string): string {
 }
 
 export const siteConfig = {
-  /** NEXT_PUBLIC_SITE_NAME ile override edin */
-  name: process.env.NEXT_PUBLIC_SITE_NAME || "Yün",
+  /** NEXT_PUBLIC_SITE_NAME ile override — varsayılan marka */
+  name: process.env.NEXT_PUBLIC_SITE_NAME || "Reinwool",
   tagline: "Doğal uykunun en saf hali",
   description:
     "Özenle seçilmiş doğal yün, kaliteli kumaşlar ve yıllarca süren konfor.",

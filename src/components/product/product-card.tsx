@@ -15,7 +15,7 @@ export function ProductCard({ product }: { product: ProductCardData }) {
 
   return (
     <article className="group">
-      <Link href={product.url} className="block">
+      <Link href={product.url || `/products/${product.handle}`} className="block">
         <div className="bg-surface-secondary relative aspect-[4/5] overflow-hidden">
           {primary?.url ? (
             <>

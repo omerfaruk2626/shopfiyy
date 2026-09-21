@@ -37,18 +37,30 @@ const CATALOG_REVALIDATE = 60 * 15; // 15 dk
 const CART_CACHE = "no-store" as const;
 
 export async function getProductByHandle(handle: string): Promise<Product | null> {
-  if (isMockMode()) return mockShopify.getProductByHandle(handle);
+  try {
+    if (isMockMode()) return mockShopify.getProductByHandle(handle);
 
-  const data = await shopifyFetch<{
-    product: Parameters<typeof normalizeProduct>[0] | null;
-  }>({
-    query: getProductByHandleQuery,
-    variables: { handle },
-    tags: [SHOPIFY_TAGS.products, SHOPIFY_TAGS.product(handle)],
-    revalidate: CATALOG_REVALIDATE,
-  });
+    const data = await shopifyFetch<{
+      product: Parameters<typeof normalizeProduct>[0] | null;
+    }>({
+      query: getProductByHandleQuery,
+      variables: { handle },
+      tags: [SHOPIFY_TAGS.products, SHOPIFY_TAGS.product(handle)],
+      revalidate: CATALOG_REVALIDATE,
+    });
 
-  return data.product ? normalizeProduct(data.product) : null;
+    return data.product ? normalizeProduct(data.product) : null;
+  } catch (error) {
+    if (process.env.NODE_ENV === "development") {
+      console.error(
+        "[getProductByHandle]",
+        handle,
+        error instanceof Error ? error.message : "error",
+      );
+    }
+    // Credentials yok / API hatası → 404'e düşebilsin; layout crash olmasın
+    return null;
+  }
 }
 
 export async function getProducts(limit = 24): Promise<ProductCardData[]> {
@@ -95,18 +107,29 @@ export async function getCollectionByHandle(
   first = 48,
 ): Promise<Collection | null> {
   if (!handle.trim()) return null;
-  if (isMockMode()) return mockShopify.getCollectionByHandle(handle);
+  try {
+    if (isMockMode()) return mockShopify.getCollectionByHandle(handle);
 
-  const data = await shopifyFetch<{
-    collection: Parameters<typeof normalizeCollection>[0] | null;
-  }>({
-    query: getCollectionByHandleQuery,
-    variables: { handle, first },
-    tags: [SHOPIFY_TAGS.collections, SHOPIFY_TAGS.collection(handle)],
-    revalidate: CATALOG_REVALIDATE,
-  });
+    const data = await shopifyFetch<{
+      collection: Parameters<typeof normalizeCollection>[0] | null;
+    }>({
+      query: getCollectionByHandleQuery,
+      variables: { handle, first },
+      tags: [SHOPIFY_TAGS.collections, SHOPIFY_TAGS.collection(handle)],
+      revalidate: CATALOG_REVALIDATE,
+    });
 
-  return data.collection ? normalizeCollection(data.collection) : null;
+    return data.collection ? normalizeCollection(data.collection) : null;
+  } catch (error) {
+    if (process.env.NODE_ENV === "development") {
+      console.error(
+        "[getCollectionByHandle]",
+        handle,
+        error instanceof Error ? error.message : "error",
+      );
+    }
+    return null;
+  }
 }
 
 /**

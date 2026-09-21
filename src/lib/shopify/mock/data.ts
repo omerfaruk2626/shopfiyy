@@ -637,46 +637,52 @@ function withGuaranteedMedia(products: Product[]): Product[] {
         ? product.images
         : [
             demoImage(
-              `${product.handle}-fallback`,
+              `${product.handle}-fallback-0`,
               `${product.title} görseli`,
-              fallbackImageUrl(productIndex),
+              fallbackImageUrl(productIndex, 0),
             ),
           ];
 
-    const images = sourceImages.map((img, imageIndex) => ({
+    let images = sourceImages.map((img, imageIndex) => ({
       ...img,
-      altText: img.altText ?? product.title,
+      altText: img.altText ?? `[DEMO] ${product.title}`,
       url: img.url || fallbackImageUrl(productIndex, imageIndex),
     }));
+
+    // ProductCard hover için en az 2 görsel
+    if (images.length === 1) {
+      images = [
+        images[0],
+        demoImage(
+          `${product.handle}-fallback-1`,
+          `${product.title} detay`,
+          fallbackImageUrl(productIndex, 1),
+        ),
+      ];
+    }
 
     const featuredImage = product.featuredImage
       ? {
           ...product.featuredImage,
-          altText: product.featuredImage.altText ?? product.title,
+          altText: product.featuredImage.altText ?? `[DEMO] ${product.title}`,
           url:
-            product.featuredImage.url || images[0]?.url || fallbackImageUrl(productIndex),
+            product.featuredImage.url ||
+            images[0]?.url ||
+            fallbackImageUrl(productIndex),
         }
       : (images[0] ?? null);
 
-    const variantImagePool = images.length
-      ? images
-      : featuredImage
-        ? [featuredImage]
-        : [];
-    const variants = product.variants.map((variant, variantIndex) => ({
-      ...variant,
-      image:
-        variant.image ??
-        (variantImagePool.length
-          ? variantImagePool[variantIndex % variantImagePool.length]
-          : null),
-    }));
-
     return {
       ...product,
+      url: product.url || `/products/${product.handle}`,
       featuredImage,
       images,
-      variants,
+      variants: product.variants.map((variant, variantIndex) => ({
+        ...variant,
+        image:
+          variant.image ??
+          (images.length ? images[variantIndex % images.length] : null),
+      })),
     };
   });
 }
@@ -785,11 +791,13 @@ const collections: Record<string, Collection> = {
     descriptionHtml: "<p>DEMO featured koleksiyon.</p>",
     image: null,
     products: [
-      demoProducts[4], // Premium Lastikli Çarşaf Seti
-      demoProducts[5], // Premium Yatak Örtüsü Seti
-      demoProducts[0],
-      demoProducts[1],
-    ].map(toCard),
+      demoProducts.find((p) => p.handle === "premium-lastikli-carsaf-seti"),
+      demoProducts.find((p) => p.handle === "premium-yatak-ortusu-seti"),
+      demoProducts.find((p) => p.handle === "dogal-yun-yorgan-standart"),
+      demoProducts.find((p) => p.handle === "dogal-yun-yastik"),
+    ]
+      .filter((p): p is Product => Boolean(p))
+      .map(toCard),
     productsCount: 4,
     seo: { title: "Öne Çıkanlar | DEMO", description: "DEMO" },
   },
@@ -800,9 +808,14 @@ const collections: Record<string, Collection> = {
     description: "DEMO best sellers koleksiyon.",
     descriptionHtml: "<p>DEMO best sellers koleksiyon.</p>",
     image: null,
-    products: [demoProducts[5], demoProducts[4], demoProducts[1], demoProducts[0]].map(
-      toCard,
-    ),
+    products: [
+      demoProducts.find((p) => p.handle === "premium-yatak-ortusu-seti"),
+      demoProducts.find((p) => p.handle === "premium-lastikli-carsaf-seti"),
+      demoProducts.find((p) => p.handle === "dogal-yun-yastik"),
+      demoProducts.find((p) => p.handle === "dogal-yun-yorgan-standart"),
+    ]
+      .filter((p): p is Product => Boolean(p))
+      .map(toCard),
     productsCount: 4,
     seo: { title: "Çok Satanlar | DEMO", description: "DEMO" },
   },
