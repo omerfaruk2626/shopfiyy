@@ -43,6 +43,7 @@ export type ProductMetafield = {
 export type Product = {
   id: string;
   handle: string;
+  url: string;
   title: string;
   description: string;
   descriptionHtml: string;
@@ -73,6 +74,7 @@ export type ProductCardData = Pick<
   Product,
   | "id"
   | "handle"
+  | "url"
   | "title"
   | "featuredImage"
   | "images"

@@ -112,11 +112,11 @@ export async function getCollectionByHandle(
 }
 
 /**
- * Config'te handle yoksa boş dizi — demo/fallback ürün YOK.
- * Collection bulunamazsa da boş dizi (section gizlenir).
+ * Gerçek modda handle yoksa boş dizi döner.
+ * Mock modda vitrinleri dolu göstermek için varsayılan handle kullanılır.
  */
 export async function getFeaturedProducts(): Promise<ProductCardData[]> {
-  const handle = siteConfig.shopify.collectionFeatured;
+  const handle = siteConfig.shopify.collectionFeatured || (isMockMode() ? "featured" : "");
   if (!handle) return [];
 
   const collection = await getCollectionByHandle(handle, 8);
@@ -124,7 +124,8 @@ export async function getFeaturedProducts(): Promise<ProductCardData[]> {
 }
 
 export async function getBestSellers(): Promise<ProductCardData[]> {
-  const handle = siteConfig.shopify.collectionBestSellers;
+  const handle =
+    siteConfig.shopify.collectionBestSellers || (isMockMode() ? "best-sellers" : "");
   if (!handle) return [];
 
   const collection = await getCollectionByHandle(handle, 8);

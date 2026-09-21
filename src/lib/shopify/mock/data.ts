@@ -49,10 +49,11 @@ const MOCK_COMFORTER_IMAGES = [
   "https://www.zebracasa.com/elisa-cift-kisilik-yatak-ortusu-setigri-cift-kisilik-comforter-setler-zebra-casa-5336-12-B.webp",
 ] as const;
 
-const demoProducts: Product[] = [
+const rawDemoProducts: Product[] = [
   {
     id: "gid://shopify/Product/demo-1",
     handle: "dogal-yun-yorgan-standart",
+    url: "/products/dogal-yun-yorgan-standart",
     title: "Doğal Yün Yorgan — Standart",
     description:
       "DEMO ÜRÜN. %100 doğal yün dolgulu, pamuk kumaşlı standart boy yorgan.",
@@ -222,6 +223,7 @@ const demoProducts: Product[] = [
   {
     id: "gid://shopify/Product/demo-2",
     handle: "dogal-yun-yastik",
+    url: "/products/dogal-yun-yastik",
     title: "Doğal Yün Yastık",
     description: "DEMO ÜRÜN. Destekleyici doğal yün dolgulu yastık.",
     descriptionHtml: "<p><strong>DEMO ÜRÜN</strong> — Destekleyici doğal yün dolgulu yastık.</p>",
@@ -281,6 +283,7 @@ const demoProducts: Product[] = [
   {
     id: "gid://shopify/Product/demo-3",
     handle: "yun-yatak-ortusu",
+    url: "/products/yun-yatak-ortusu",
     title: "Yün Yatak Örtüsü",
     description: "DEMO ÜRÜN. Doğal dokulu yatak örtüsü.",
     descriptionHtml: "<p><strong>DEMO ÜRÜN</strong> — Doğal dokulu yatak örtüsü.</p>",
@@ -346,6 +349,7 @@ const demoProducts: Product[] = [
   {
     id: "gid://shopify/Product/demo-4",
     handle: "cocuk-yun-yorgan",
+    url: "/products/cocuk-yun-yorgan",
     title: "Çocuk Yün Yorganı",
     description: "DEMO ÜRÜN. Daha hafif dolgulu çocuk boy yorgan.",
     descriptionHtml: "<p><strong>DEMO ÜRÜN</strong> — Daha hafif dolgulu çocuk boy yorgan.</p>",
@@ -393,6 +397,7 @@ const demoProducts: Product[] = [
   {
     id: "gid://shopify/Product/demo-5",
     handle: "premium-lastikli-carsaf-seti",
+    url: "/products/premium-lastikli-carsaf-seti",
     title: "Premium Lastikli Çarşaf Seti",
     description:
       "DEMO ÜRÜN. Lastikli çarşaf ve yastık kılıfı seti. Antrasit renk. Geliştirme ortamı mock görselleri.",
@@ -494,6 +499,7 @@ const demoProducts: Product[] = [
   {
     id: "gid://shopify/Product/demo-6",
     handle: "premium-yatak-ortusu-seti",
+    url: "/products/premium-yatak-ortusu-seti",
     title: "Premium Yatak Örtüsü Seti",
     description:
       "DEMO ÜRÜN. Çift kişilik yatak örtüsü seti. Gri. Geliştirme ortamı mock görselleri.",
@@ -576,10 +582,69 @@ const demoProducts: Product[] = [
   },
 ];
 
+const MOCK_IMAGE_POOL = [...MOCK_SHEET_IMAGES, ...MOCK_COMFORTER_IMAGES] as const;
+
+function fallbackImageUrl(productIndex: number, imageIndex = 0) {
+  const poolIndex = (productIndex + imageIndex) % MOCK_IMAGE_POOL.length;
+  return MOCK_IMAGE_POOL[poolIndex];
+}
+
+function withGuaranteedMedia(products: Product[]): Product[] {
+  return products.map((product, productIndex) => {
+    const sourceImages =
+      product.images.length > 0
+        ? product.images
+        : [
+            demoImage(
+              `${product.handle}-fallback`,
+              `${product.title} görseli`,
+              fallbackImageUrl(productIndex),
+            ),
+          ];
+
+    const images = sourceImages.map((img, imageIndex) => ({
+      ...img,
+      altText: img.altText ?? product.title,
+      url: img.url || fallbackImageUrl(productIndex, imageIndex),
+    }));
+
+    const featuredImage = product.featuredImage
+      ? {
+          ...product.featuredImage,
+          altText: product.featuredImage.altText ?? product.title,
+          url:
+            product.featuredImage.url ||
+            images[0]?.url ||
+            fallbackImageUrl(productIndex),
+        }
+      : (images[0] ?? null);
+
+    const variantImagePool = images.length ? images : featuredImage ? [featuredImage] : [];
+    const variants = product.variants.map((variant, variantIndex) => ({
+      ...variant,
+      image:
+        variant.image ??
+        (variantImagePool.length
+          ? variantImagePool[variantIndex % variantImagePool.length]
+          : null),
+    }));
+
+    return {
+      ...product,
+      featuredImage,
+      images,
+      variants,
+    };
+  });
+}
+
+const demoProducts: Product[] = withGuaranteedMedia(rawDemoProducts);
+
 function toCard(product: Product): ProductCardData {
   return {
     id: product.id,
     handle: product.handle,
+    url: product.url,
     title: product.title,
     featuredImage: product.featuredImage,
     images: product.images,

@@ -107,6 +107,7 @@ export function normalizeProduct(node: ShopifyProductNode): Product {
   return {
     id: node.id,
     handle: node.handle,
+    url: `/products/${node.handle}`,
     title: node.title,
     description: node.description ?? "",
     descriptionHtml: node.descriptionHtml ?? "",
@@ -153,6 +154,7 @@ export function normalizeProductCard(node: ShopifyProductNode): ProductCardData 
   return {
     id: product.id,
     handle: product.handle,
+    url: product.url,
     title: product.title,
     featuredImage: product.featuredImage,
     images: product.images,
