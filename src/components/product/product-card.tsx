@@ -11,13 +11,12 @@ export function ProductCard({ product }: { product: ProductCardData }) {
   const price = product.priceRange.minVariantPrice;
   const compare = product.compareAtPriceRange.minVariantPrice;
   const showCompare =
-    compare &&
-    Number.parseFloat(compare.amount) > Number.parseFloat(price.amount);
+    compare && Number.parseFloat(compare.amount) > Number.parseFloat(price.amount);
 
   return (
     <article className="group">
       <Link href={product.url} className="block">
-        <div className="relative aspect-[4/5] overflow-hidden bg-surface-secondary">
+        <div className="bg-surface-secondary relative aspect-[4/5] overflow-hidden">
           {primary?.url ? (
             <>
               <Image
@@ -47,26 +46,26 @@ export function ProductCard({ product }: { product: ProductCardData }) {
           )}
 
           {product.badge ? (
-            <span className="absolute left-3 top-3 bg-surface/90 px-2 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-foreground backdrop-blur-sm">
+            <span className="bg-surface/90 text-foreground absolute top-3 left-3 px-2 py-1 text-[10px] font-medium tracking-[0.12em] uppercase backdrop-blur-sm">
               {product.badge}
             </span>
           ) : null}
 
           {!product.availableForSale ? (
-            <span className="absolute bottom-3 left-3 bg-anthracite/80 px-2 py-1 text-[10px] uppercase tracking-[0.1em] text-surface">
+            <span className="bg-anthracite/80 text-surface absolute bottom-3 left-3 px-2 py-1 text-[10px] tracking-[0.1em] uppercase">
               Tükendi
             </span>
           ) : null}
 
-          <span className="pointer-events-none absolute bottom-3 right-3 hidden translate-y-2 opacity-0 transition-all duration-300 ease-[var(--ease-out)] group-hover:translate-y-0 group-hover:opacity-100 md:inline-flex">
-            <span className="inline-flex h-10 w-10 items-center justify-center bg-surface text-foreground shadow-sm">
+          <span className="pointer-events-none absolute right-3 bottom-3 hidden translate-y-2 opacity-0 transition-all duration-300 ease-[var(--ease-out)] group-hover:translate-y-0 group-hover:opacity-100 md:inline-flex">
+            <span className="bg-surface text-foreground inline-flex h-10 w-10 items-center justify-center shadow-sm">
               <ArrowUpRight className="h-4 w-4" />
             </span>
           </span>
         </div>
 
         <div className="mt-4 space-y-1">
-          <h3 className="font-sans text-sm font-medium leading-snug text-foreground md:text-[0.95rem]">
+          <h3 className="text-foreground font-sans text-sm leading-snug font-medium md:text-[0.95rem]">
             {product.title}
           </h3>
           <div className="flex items-baseline gap-2">

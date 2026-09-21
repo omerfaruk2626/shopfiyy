@@ -69,10 +69,7 @@ function money(value: ShopifyMoney, fallbackCurrency = "TRY"): Money {
   };
 }
 
-function image(
-  value: ShopifyImage | undefined,
-  fallbackAlt = "",
-): ProductImage | null {
+function image(value: ShopifyImage | undefined, fallbackAlt = ""): ProductImage | null {
   if (!value?.url) return null;
   return {
     id: value.id ?? value.url,

@@ -21,13 +21,7 @@ function money(amount: string) {
  * Production'da Shopify CDN görselleri bunların yerini alır.
  * url boşsa UI texture fallback kullanır.
  */
-function demoImage(
-  seed: string,
-  alt: string,
-  url = "",
-  width = 1200,
-  height = 1500,
-) {
+function demoImage(seed: string, alt: string, url = "", width = 1200, height = 1500) {
   return {
     id: `demo-img-${seed}`,
     url,
@@ -55,8 +49,7 @@ const rawDemoProducts: Product[] = [
     handle: "dogal-yun-yorgan-standart",
     url: "/products/dogal-yun-yorgan-standart",
     title: "Doğal Yün Yorgan — Standart",
-    description:
-      "DEMO ÜRÜN. %100 doğal yün dolgulu, pamuk kumaşlı standart boy yorgan.",
+    description: "DEMO ÜRÜN. %100 doğal yün dolgulu, pamuk kumaşlı standart boy yorgan.",
     descriptionHtml:
       "<p><strong>DEMO ÜRÜN</strong> — %100 doğal yün dolgulu, pamuk kumaşlı standart boy yorgan.</p>",
     availableForSale: true,
@@ -208,12 +201,42 @@ const rawDemoProducts: Product[] = [
       maxVariantPrice: money("4990"),
     },
     metafields: [
-      { namespace: "custom", key: "dolgu", value: "%100 doğal yün", type: "single_line_text_field" },
-      { namespace: "custom", key: "kumas", value: "%100 pamuk", type: "single_line_text_field" },
-      { namespace: "custom", key: "dolgu_agirligi", value: "2–3 kg", type: "single_line_text_field" },
-      { namespace: "custom", key: "olcu", value: "155×215 / 195×215 / 220×240 cm", type: "single_line_text_field" },
-      { namespace: "custom", key: "uretim", value: "Türkiye", type: "single_line_text_field" },
-      { namespace: "custom", key: "bakim", value: "Kuru temizleme önerilir. Direkt güneşten koruyun.", type: "multi_line_text_field" },
+      {
+        namespace: "custom",
+        key: "dolgu",
+        value: "%100 doğal yün",
+        type: "single_line_text_field",
+      },
+      {
+        namespace: "custom",
+        key: "kumas",
+        value: "%100 pamuk",
+        type: "single_line_text_field",
+      },
+      {
+        namespace: "custom",
+        key: "dolgu_agirligi",
+        value: "2–3 kg",
+        type: "single_line_text_field",
+      },
+      {
+        namespace: "custom",
+        key: "olcu",
+        value: "155×215 / 195×215 / 220×240 cm",
+        type: "single_line_text_field",
+      },
+      {
+        namespace: "custom",
+        key: "uretim",
+        value: "Türkiye",
+        type: "single_line_text_field",
+      },
+      {
+        namespace: "custom",
+        key: "bakim",
+        value: "Kuru temizleme önerilir. Direkt güneşten koruyun.",
+        type: "multi_line_text_field",
+      },
     ],
     seo: {
       title: "Doğal Yün Yorgan — Standart | DEMO",
@@ -226,7 +249,8 @@ const rawDemoProducts: Product[] = [
     url: "/products/dogal-yun-yastik",
     title: "Doğal Yün Yastık",
     description: "DEMO ÜRÜN. Destekleyici doğal yün dolgulu yastık.",
-    descriptionHtml: "<p><strong>DEMO ÜRÜN</strong> — Destekleyici doğal yün dolgulu yastık.</p>",
+    descriptionHtml:
+      "<p><strong>DEMO ÜRÜN</strong> — Destekleyici doğal yün dolgulu yastık.</p>",
     availableForSale: true,
     vendor: "DEMO",
     productType: "Yastık",
@@ -271,9 +295,24 @@ const rawDemoProducts: Product[] = [
       maxVariantPrice: null,
     },
     metafields: [
-      { namespace: "custom", key: "dolgu", value: "%100 doğal yün", type: "single_line_text_field" },
-      { namespace: "custom", key: "kumas", value: "%100 pamuk", type: "single_line_text_field" },
-      { namespace: "custom", key: "uretim", value: "Türkiye", type: "single_line_text_field" },
+      {
+        namespace: "custom",
+        key: "dolgu",
+        value: "%100 doğal yün",
+        type: "single_line_text_field",
+      },
+      {
+        namespace: "custom",
+        key: "kumas",
+        value: "%100 pamuk",
+        type: "single_line_text_field",
+      },
+      {
+        namespace: "custom",
+        key: "uretim",
+        value: "Türkiye",
+        type: "single_line_text_field",
+      },
     ],
     seo: {
       title: "Doğal Yün Yastık | DEMO",
@@ -352,7 +391,8 @@ const rawDemoProducts: Product[] = [
     url: "/products/cocuk-yun-yorgan",
     title: "Çocuk Yün Yorganı",
     description: "DEMO ÜRÜN. Daha hafif dolgulu çocuk boy yorgan.",
-    descriptionHtml: "<p><strong>DEMO ÜRÜN</strong> — Daha hafif dolgulu çocuk boy yorgan.</p>",
+    descriptionHtml:
+      "<p><strong>DEMO ÜRÜN</strong> — Daha hafif dolgulu çocuk boy yorgan.</p>",
     availableForSale: true,
     vendor: "DEMO",
     productType: "Yorgan",
@@ -387,7 +427,12 @@ const rawDemoProducts: Product[] = [
       maxVariantPrice: null,
     },
     metafields: [
-      { namespace: "custom", key: "dolgu", value: "%100 doğal yün", type: "single_line_text_field" },
+      {
+        namespace: "custom",
+        key: "dolgu",
+        value: "%100 doğal yün",
+        type: "single_line_text_field",
+      },
     ],
     seo: {
       title: "Çocuk Yün Yorganı | DEMO",
@@ -418,11 +463,7 @@ const rawDemoProducts: Product[] = [
         "Premium lastikli çarşaf seti — antrasit",
         MOCK_SHEET_IMAGES[0],
       ),
-      demoImage(
-        "sheet-2",
-        "Premium lastikli çarşaf seti — detay",
-        MOCK_SHEET_IMAGES[1],
-      ),
+      demoImage("sheet-2", "Premium lastikli çarşaf seti — detay", MOCK_SHEET_IMAGES[1]),
       demoImage(
         "sheet-3",
         "Premium lastikli çarşaf seti — yaşam alanı",
@@ -613,13 +654,15 @@ function withGuaranteedMedia(products: Product[]): Product[] {
           ...product.featuredImage,
           altText: product.featuredImage.altText ?? product.title,
           url:
-            product.featuredImage.url ||
-            images[0]?.url ||
-            fallbackImageUrl(productIndex),
+            product.featuredImage.url || images[0]?.url || fallbackImageUrl(productIndex),
         }
       : (images[0] ?? null);
 
-    const variantImagePool = images.length ? images : featuredImage ? [featuredImage] : [];
+    const variantImagePool = images.length
+      ? images
+      : featuredImage
+        ? [featuredImage]
+        : [];
     const variants = product.variants.map((variant, variantIndex) => ({
       ...variant,
       image:
@@ -711,15 +754,13 @@ const collections: Record<string, Collection> = {
     handle: "carsaf-yatak-tekstili",
     title: "Çarşaf & Yatak Tekstili",
     description: "DEMO — Lastikli çarşaf ve yastık kılıfı setleri.",
-    descriptionHtml:
-      "<p>DEMO — Lastikli çarşaf ve yastık kılıfı setleri.</p>",
+    descriptionHtml: "<p>DEMO — Lastikli çarşaf ve yastık kılıfı setleri.</p>",
     image: null,
     products: demoProducts
       .filter((p) => p.productType === "Çarşaf & Yatak Tekstili")
       .map(toCard),
-    productsCount: demoProducts.filter(
-      (p) => p.productType === "Çarşaf & Yatak Tekstili",
-    ).length,
+    productsCount: demoProducts.filter((p) => p.productType === "Çarşaf & Yatak Tekstili")
+      .length,
     seo: {
       title: "Çarşaf & Yatak Tekstili | DEMO",
       description: "DEMO koleksiyon",
@@ -732,11 +773,8 @@ const collections: Record<string, Collection> = {
     description: "DEMO — Yatak örtüsü setleri.",
     descriptionHtml: "<p>DEMO — Yatak örtüsü setleri.</p>",
     image: null,
-    products: demoProducts
-      .filter((p) => p.productType === "Yatak Örtüsü")
-      .map(toCard),
-    productsCount: demoProducts.filter((p) => p.productType === "Yatak Örtüsü")
-      .length,
+    products: demoProducts.filter((p) => p.productType === "Yatak Örtüsü").map(toCard),
+    productsCount: demoProducts.filter((p) => p.productType === "Yatak Örtüsü").length,
     seo: { title: "Yatak Örtüleri | DEMO", description: "DEMO koleksiyon" },
   },
   featured: {
@@ -762,12 +800,9 @@ const collections: Record<string, Collection> = {
     description: "DEMO best sellers koleksiyon.",
     descriptionHtml: "<p>DEMO best sellers koleksiyon.</p>",
     image: null,
-    products: [
-      demoProducts[5],
-      demoProducts[4],
-      demoProducts[1],
-      demoProducts[0],
-    ].map(toCard),
+    products: [demoProducts[5], demoProducts[4], demoProducts[1], demoProducts[0]].map(
+      toCard,
+    ),
     productsCount: 4,
     seo: { title: "Çok Satanlar | DEMO", description: "DEMO" },
   },
@@ -882,9 +917,7 @@ export const mockShopify = {
 
       if (!variant) continue;
 
-      const existing = next.lines.find(
-        (l) => l.merchandise.id === line.merchandiseId,
-      );
+      const existing = next.lines.find((l) => l.merchandise.id === line.merchandiseId);
 
       if (existing) {
         existing.quantity += line.quantity;
@@ -910,9 +943,9 @@ export const mockShopify = {
           },
           cost: {
             totalAmount: money(
-              (
-                Number.parseFloat(variant.variant.price.amount) * line.quantity
-              ).toFixed(2),
+              (Number.parseFloat(variant.variant.price.amount) * line.quantity).toFixed(
+                2,
+              ),
             ),
           },
         });

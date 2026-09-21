@@ -75,9 +75,7 @@ export async function searchProducts(
 
   const data = await shopifyFetch<{
     search: {
-      nodes: Array<
-        Parameters<typeof normalizeProductCard>[0] | Record<string, never>
-      >;
+      nodes: Array<Parameters<typeof normalizeProductCard>[0] | Record<string, never>>;
     };
   }>({
     query: searchProductsQuery,
@@ -116,7 +114,8 @@ export async function getCollectionByHandle(
  * Mock modda vitrinleri dolu göstermek için varsayılan handle kullanılır.
  */
 export async function getFeaturedProducts(): Promise<ProductCardData[]> {
-  const handle = siteConfig.shopify.collectionFeatured || (isMockMode() ? "featured" : "");
+  const handle =
+    siteConfig.shopify.collectionFeatured || (isMockMode() ? "featured" : "");
   if (!handle) return [];
 
   const collection = await getCollectionByHandle(handle, 8);
@@ -272,10 +271,7 @@ export async function updateCartLines(
   return normalizeCart(data.cartLinesUpdate.cart);
 }
 
-export async function removeCartLines(
-  cartId: string,
-  lineIds: string[],
-): Promise<Cart> {
+export async function removeCartLines(cartId: string, lineIds: string[]): Promise<Cart> {
   if (isMockMode()) {
     const cart = mockShopify.removeLines(cartId, lineIds);
     if (!cart) throw new Error("Sepet bulunamadı.");
